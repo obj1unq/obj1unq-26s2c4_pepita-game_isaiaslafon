@@ -1,19 +1,39 @@
 import pepita.*
 import direcciones.*
 import wollok.game.*
+import extras.*
 
 program PepitaGame {
+	//Estas configuraciones no se pueden cambiar una vez que inició el juego
 	game.title("Pepita")
 	game.height(10)
 	game.width(10)
+	game.cellSize(50)
 	game.boardGround("fondo2.jpg")
 
+
+	game.addVisual(fondo)
+
+	//Los addVisuals se superponen en el orden que se agregaron.
+	game.addVisual(nido)	
+	game.addVisual(silvestre)
 	game.addVisual(pepita)
+
+	//Este mensaje limpia todos los objetos del tablero, on collides, asignacion de tecla, etc.
+	//game.clear()
 
 	keyboard.left().onPressDo({ pepita.mover(izquierda)})
 	keyboard.right().onPressDo({ pepita.mover(derecha)})
 	keyboard.up().onPressDo({ pepita.mover(arriba)})
 	keyboard.down().onPressDo({ pepita.mover(abajo)})
+	
+	keyboard.b().onPressDo({ fondo.cambiar()})
+
+	//game.whenCollideDo(pepita,{ entidad => game.say(pepita, "gane")})
+	
+	game.onCollideDo(pepita,{ entidad => entidad})
+	//game.onCollideDo(pepita,{ entidad => pepita.colisionar(entidad) })
+	game.onCollideDo(pepita,{ entidad => entidad.chocar(pepita) })
 
 	game.start()
 }
