@@ -1,17 +1,16 @@
 import wollok.game.*
 import extras.*
+import direcciones.*
 
 object pepita {
-	var property energia = 1000 //El getter y setter solo lo necesito para testear
+	var property energia = 200 //El getter y setter solo lo necesito para testear
 	var position = game.at(0,1) // game.origin() 
 	var estado = "normal"
-
 
 	method image(){
 		return "pepita-" + estado + ".png"
 	}
 
-	
 	method position() { //metodo necesario para wollok game
 		return position
 	}
@@ -19,7 +18,6 @@ object pepita {
 	method position(_position) { //el setter solo lo necesito para testear
 		position = _position 
 	}
-
 
 	method text() { //metodo opcional para mostrar un texto en wollok game
 		return energia.toString()
@@ -36,7 +34,7 @@ object pepita {
 
 	method validarVolar(distancia) {
 		if(not self.puedeVolar(distancia)) { 
-			self.error("no puede volar")
+			self.perder()
 		}
 	}
 
@@ -54,9 +52,9 @@ object pepita {
 		position = nuevaPosition //ahora si puedo modificar la posicion
 	}
 
-	//method colisionar(entidad){
-	//	entidad.chocar(self)
-	//}
+	method caer() {
+		position = abajo.siguiente(position)
+	}
 
 	method ganar(){
 		estado = "grande"
@@ -65,8 +63,14 @@ object pepita {
 
 	method perder(){
 		estado = "gris"
-		game.say(self, "pucha, que pobreza...")
+		game.say(self, "perdí")
+		game.schedule(3000, {game.stop()})
 	}
+
+	method comer(comida){
+		energia += comida.energia()
+	}
+
 }
 
 //game.say(pepita, "perdí, che")
