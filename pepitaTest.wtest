@@ -12,6 +12,13 @@ describe "Tests de Pepita" {
 
 		pepita.position(game.at(5,5))
 	}
+    
+	test "no puede volar"{
+		
+		assert.throwsException(pepita.energia()) //volar(100000000000)})
+		assert.throwsExceptionWithMessage("no puede volar",{pepita.volar(100000000000)})
+		assert.equals(1000, pepita.energia())
+	}
 
 	test "pepita mover arriba" {
 
