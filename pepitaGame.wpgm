@@ -31,8 +31,8 @@ program PepitaGame {
 	keyboard.down().onPressDo({ pepita.mover(abajo)})
 
 
-	keyboard.b().onPressDo({ fondo.cambiar()})	
-	keyboard.c().onPressDo({ game.uniqueCollider(pepita).esComidoPor(pepita) })
+	keyboard.b().onPressDo({ fondo.cambiar()})	//Ejemplo manejar fondo del juego
+	//keyboard.c().onPressDo({ game.uniqueCollider(pepita).esComidoPor(pepita) })
 	
 
 	// game.whenCollideDo(pepita,{ entidad => game.say(pepita, "gane")})
