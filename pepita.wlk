@@ -2,13 +2,53 @@ import wollok.game.*
 import extras.*
 import direcciones.*
 
+object normal{
+	method forma(){
+		return "normal"
+	}
+
+	method puedeMover(){
+		return true
+	}
+
+}
+
+object perdedora{
+	method forma(){
+		return "gris"
+	}
+
+	method puedeMover(){
+		return false
+	}
+
+	method mensaje(){
+		return "perdí!"
+	}
+}
+
+object ganadora{
+	method forma(){
+		return "grande"
+	}
+
+	method puedeMover(){
+		return false
+	}
+
+	method mensaje(){
+		return "gané!"
+	}
+}
+
+
 object pepita {
 	var property energia = 200 //El getter y setter solo lo necesito para testear
 	var position = game.at(0,1) // game.origin() 
-	var estado = "normal"
+	var estado = normal
 
 	method image(){
-		return "pepita-" + estado + ".png"
+		return "pepita-" + estado.forma() + ".png"
 	}
 
 	method position() { //metodo necesario para wollok game
@@ -47,24 +87,30 @@ object pepita {
   	}
 
 	method mover(direccion) {
-		const nuevaPosition = direccion.siguiente(position) //No modifico la position en la primera linea porque volar podría lanzar error
-		self.volar(10) //asume que cada celda está a 10 km
-		position = nuevaPosition //ahora si puedo modificar la posicion
+		if(estado.puedeMover()){		
+			const nuevaPosition = direccion.siguiente(position) //No modifico la position en la primera linea porque volar podría lanzar error
+			self.volar(10) //asume que cada celda está a 10 km
+			position = nuevaPosition //ahora si puedo modificar la posicion
+		}
 	}
+
 
 	method caer() {
 		position = abajo.siguiente(position)
 	}
 
+	method finalizar(estadoNuevo){
+		estado = estadoNuevo
+		game.say(self, estado.mensaje())
+		game.schedule(3000, {game.stop()})
+	}
+
 	method ganar(){
-		estado = "grande"
-		game.say(self, "gane")
+		self.finalizar(ganadora)
 	}
 
 	method perder(){
-		estado = "gris"
-		game.say(self, "perdí")
-		game.schedule(3000, {game.stop()})
+		self.finalizar(perdedora)
 	}
 
 	method comer(comida){
@@ -73,6 +119,7 @@ object pepita {
 
 }
 
+//comentario
 //game.say(pepita, "perdí, che")
 //game.schedule(2000, {game.stop()})
 
@@ -104,18 +151,7 @@ object pepita {
 
 //##############################################################################
 
-object perdedora{
 
-	method mover(ave, direccion){
-		self.terminarJuego(ave)
-	}
-
-	method terminarJuego(ave){
-		game.say(ave, "estoy atrapada")
-		game.schedule(3000, {game.stop()})
-	}
-	
-}
 
 object jaula{
 	const property image = "jaula.png"

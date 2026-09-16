@@ -24,21 +24,23 @@ program PepitaGame {
 	
 	//Este mensaje limpia todos los objetos del tablero, on collides, asignacion de tecla, etc.
 	//game.clear()
-
+	
 	keyboard.left().onPressDo({ pepita.mover(izquierda)})
 	keyboard.right().onPressDo({ pepita.mover(derecha)})
 	keyboard.up().onPressDo({ pepita.mover(arriba)})
 	keyboard.down().onPressDo({ pepita.mover(abajo)})
-	
+
+
 	keyboard.b().onPressDo({ fondo.cambiar()})	
 	keyboard.c().onPressDo({ game.uniqueCollider(pepita).esComidoPor(pepita) })
 	
+
 	// game.whenCollideDo(pepita,{ entidad => game.say(pepita, "gane")})
 	
 	//game.onCollideDo(pepita,{ entidad => entidad})
 	//game.onCollideDo(pepita,{ entidad => pepita.colisionar(entidad) })
 	game.onCollideDo(pepita,{ entidad => entidad.chocar(pepita) })
 	//game.onTick(1000, "gravedad pepita", {pepita.caer()})
-
+	//comentario
 	game.start()
 }
